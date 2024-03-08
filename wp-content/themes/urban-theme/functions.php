@@ -59,25 +59,6 @@ function sd_assets()
     true
   );
 
-  // wp_enqueue_script(
-  //   'angular1',
-  //   get_template_directory_uri() . '/assets/js/main-UPAUGXQT.js',
-  //   ['angular2'],
-  //   '1.0',
-  //   true
-  // );
-  // wp_script_add_data('angular1', 'type', 'module');
-
-  // wp_enqueue_script(
-  //   'angular2',
-  //   get_template_directory_uri() . '/assets/js/polyfills-RT5I6R6G.js',
-  //   '',
-  //   '1.0',
-  //   true
-  // );
-  // wp_script_add_data('angular2', 'type', 'module');
-
-
   wp_localize_script('custom', 'pg', array(
     'ajaxurl' => admin_url('admin-ajax.php'),
     'apiurl' => home_url('/wp-json/pg/v1/')
@@ -127,23 +108,25 @@ function productos_type()
 }
 add_action('init', 'productos_type');
 
-// Registramos una taxonomia nueva
-function sd_pgRegisterTax()
+function pgRegisterTax()
 {
-  $args = array(
+  $args = [
     'hierarchical' => true,
-    'labels' => array(
-      'name' => 'Categorías de Productos',
+    'labels' => [
+      'name' => 'Categorías de productos',
       'singular_name' => 'Categoría de Producto'
-    ),
-    'show_in_menu' => true,
+    ],
+    'show_in_nav_menu' => true,
     'show_admin_column' => true,
-    'rewrite' => array('slug' => 'categoria-productos'),
-  );
+    'rewrite' => ['slug' => 'categoria-productos']
+  ];
+
   register_taxonomy('categoria-productos', array('producto'));
   register_taxonomy('categoria-productos', array('producto'), $args);
+  register_taxonomy('categoria-producto', ['producto'], $args);
 }
-add_action('init', 'sd_pgRegisterTax');
+
+add_action('init', 'pgRegisterTax');
 
 
 // filtro de productos para el home por AJAX

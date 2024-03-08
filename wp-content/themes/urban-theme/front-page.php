@@ -12,7 +12,7 @@
 
 
   <div class="lista-productos my-5">
-    <h2 class='text-center'>PRODUCTOS SD</h2>
+    <h2 class='text-center'>PRODUCTOS AJAX</h2>
 
     <div class="row">
       <div class="col-12">
@@ -63,7 +63,7 @@
 
   <div class="row">
     <div class="col-12">
-      <h1>Novedades</h1>
+      <h1>Novedades API</h1>
     </div>
     <div id="resultado-novedades" class="row"></div>
   </div>
