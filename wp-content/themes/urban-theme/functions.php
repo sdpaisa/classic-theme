@@ -258,3 +258,49 @@ function pgRenderDinamycBlock($attributes, $content) // Función de callback par
   return '<h3>' . $attributes['content'] . '</h3>';
 }
 add_action('init', 'pgRegisterBlock'); // Asignación de la función de registro del bloque al Hook "init"
+
+
+// verificar si estoy logeado
+// verificar si estoy logeado
+
+
+// function plz_add_to_signin_menu()
+// {
+//   $current_user = wp_get_current_user();
+
+//   $msg = is_user_logged_in() ? $current_user->user_email : "Sign in";
+
+//   echo $msg;
+// }
+// add_action("plz_signin", "plz_add_to_signin_menu");
+
+
+function mostrar_boton_login_logout()
+{
+
+  $current_user = wp_get_current_user();
+  $msg = is_user_logged_in() ? $current_user->user_email : "Sign in";
+
+
+  // URL a la que quieres redirigir al usuario después de cerrar sesión
+  $redirect_url = home_url('sing-up');
+
+  // Generar la URL de cierre de sesión con el parámetro redirect
+  $logout_url = wp_logout_url($redirect_url);
+
+
+
+  if (is_user_logged_in()) {
+    // Usuario logueado
+    // echo '<a href="' . wp_logout_url() . '" class="boton-logout">Cerrar sesión</a>';
+    // echo '<p>' . $msg . '<br>' . '<a href="' . home_url('sing-up') . '" class="">Cerrar sesión</a></p>';
+
+    echo '<p>' . $msg . '<br>' . '<a href="' . esc_url($logout_url) . '" class="">Cerrar sesión</a></p>';
+  } else {
+    // Usuario no logueado
+    echo '<a href="' . home_url('sing-in') . '" class="">Iniciar sesión</a>';
+  }
+}
+
+// add_action('wp_footer', 'mostrar_boton_login_logout');
+// add_action('plz_signin', 'mostrar_boton_login_logout');

@@ -8,7 +8,11 @@
   "[php]": {
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-  "conventionalCommits.scopes": ["front page", "plugin dark mode"]
+  "conventionalCommits.scopes": [
+    "front page",
+    "plugin dark mode",
+    "from client"
+  ]
   // "prettier.documentSelectors": [
   //     "**/*.{js,jsx,ts,tsx,vue,html,css,scss,less,json,md,mdx,graphql,yaml,yml,php}"
   // ]
