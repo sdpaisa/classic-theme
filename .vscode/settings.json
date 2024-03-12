@@ -11,7 +11,8 @@
   "conventionalCommits.scopes": [
     "front page",
     "plugin dark mode",
-    "from client"
+    "from client",
+    "recetas"
   ]
   // "prettier.documentSelectors": [
   //     "**/*.{js,jsx,ts,tsx,vue,html,css,scss,less,json,md,mdx,graphql,yaml,yml,php}"

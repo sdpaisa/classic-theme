@@ -10,6 +10,10 @@ function sd_init_template()
 }
 add_action('after_setup_theme', 'sd_init_template');
 
+
+
+
+
 // Agremgamos los assets js, css y inicializamos las URL de ajax y API
 function sd_assets()
 {
@@ -66,6 +70,10 @@ function sd_assets()
 }
 add_action('wp_enqueue_scripts', 'sd_assets');
 
+
+
+
+
 // Registramos el widget para el tema
 function sidebar()
 {
@@ -81,7 +89,144 @@ function sidebar()
 }
 add_action('widgets_init', 'sidebar');
 
-// Creamon un CPT llamado productos
+
+
+
+
+
+// Creamos un CPT llamado recetas
+function sd_recetas_type()
+{
+  $labels = [
+    'name' => 'Recetas',
+    'singular_name' => 'singular_name-receta',
+    'manu_name' => 'manu_name-receta',
+  ];
+
+  $args = [
+    'label' => 'label-recetas',
+    'description' => 'Recetas de la pagina',
+    'labels' => $labels,
+    'supports' => ['title', 'custom-fields', 'editor', 'thumbnail', 'revisions'],
+    'public' => true,
+    'can_export' => true,
+    'menu_position' => 5,
+    'menu_icon' => 'dashicons-list-view',
+    'taxonomies' => array('categoria-receta'),
+    'can_export' => true,
+    'publicly_queryable' => true,
+    'rewrite' => true,
+    'show_in_rest' => true,
+    'template' => array( // https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/
+      array('recetas/basic'),
+      array('core/post-title', array(
+        'level' => 1
+      )),
+      array('core/paragraph', array( //https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/post-title/block.json
+        'placeholder' => 'Agregar descripcion de la receta....',
+        'lock' => array(
+          'move'   => true,
+          'remove' => true,
+        ),
+      )),
+    ),
+
+  ];
+  register_post_type('receta', $args);
+}
+add_action('init', 'sd_recetas_type');
+
+// Agregar un meta box para los campos personalizados de recetas
+function add_custom_fields_meta_box()
+{
+  add_meta_box(
+    'custom_fields_meta_box',
+    'Campos Personalizados',
+    'render_custom_fields_meta_box',
+    'receta', // Nombre del CPT
+    'normal',
+    'default'
+  );
+}
+add_action('add_meta_boxes', 'add_custom_fields_meta_box');
+
+
+function render_custom_fields_meta_box($post) // Renderizar el contenido del meta box
+{ // Aquí puedes agregar tus campos personalizados utilizando funciones como get_post_meta()
+  echo '<label for="custom_field">Campo Personalizado:</label>';
+  echo '<input type="text" id="custom_field" name="custom_field" value="' . get_post_meta($post->ID, 'custom_field', true) . '" />';
+}
+
+function save_custom_fields_data($post_id) // Guardar los datos de los campos personalizados
+{
+  if (isset($_POST['custom_field'])) {
+    update_post_meta($post_id, 'custom_field', sanitize_text_field($_POST['custom_field']));
+  }
+}
+add_action('save_post', 'save_custom_fields_data');
+
+
+// Agregar nuevo grupo taxonomico para recetas
+function sd_registrar_taxonomia_categoria_receta()
+{
+  $labels = array(
+    'name'              => 'Categorías de Recetas',
+    'singular_name'     => 'Categoría de Receta',
+    'menu_name'         => 'Categorías de Recetas',
+    'search_items'      => 'Buscar Categorías de Recetas',
+    'all_items'         => 'Todas las Categorías de Recetas',
+    'edit_item'         => 'Editar Categoría de Receta',
+    'update_item'       => 'Actualizar Categoría de Receta',
+    'add_new_item'      => 'Agregar Nueva Categoría de Receta',
+    'new_item_name'     => 'Nombre de la Nueva Categoría de Receta',
+    'parent_item'       => 'Categoría de Receta Padre',
+    'parent_item_colon' => 'Categoría de Receta Padre:',
+    'not_found'         => 'No se encontraron categorías de recetas',
+  );
+  $args = array(
+    'hierarchical'      => true,
+    'labels'            => $labels,
+    'public'            => true,
+    'show_ui'           => true,
+    'show_admin_column' => true,
+    'query_var'         => true,
+    'rewrite'           => array('slug' => 'categoria-receta'),
+  );
+
+  register_taxonomy('categoria-receta', 'receta', $args); // Registrar la taxonomía
+
+  $default_category = 'Receta'; // Insertar la categoría por defecto
+  $term_exists = term_exists($default_category, 'categoria-receta'); // Insertar la categoría por defecto
+
+  if (!$term_exists) { // Insertar la categoría por defecto
+    wp_insert_term($default_category, 'categoria-receta');
+  }
+}
+add_action('init', 'sd_registrar_taxonomia_categoria_receta');
+
+// GUARDAMOS categoria llamada RECETA cada vez que guardamos los post
+function asignar_categoria_por_defecto_a_recetas($post_id)
+{
+
+  if ('receta' === get_post_type($post_id)) { // Verificar si el post es del tipo 'receta'
+    if (!has_term('', 'categoria-receta', $post_id)) { // Verificar si el post no tiene ninguna categoría asignada
+      $uncategorized_term = get_term_by('slug', 'receta', 'categoria-receta'); // Obtener el ID de la categoría 'Uncategorized'
+      if ($uncategorized_term) { // Si se encuentra la categoría 'Uncategorized', asignarla al post
+        wp_set_post_terms($post_id, array($uncategorized_term->term_id), 'categoria-receta');
+      }
+    }
+  }
+  // print_r('--------------------------> ' . $post_id);
+}
+add_action('save_post', 'asignar_categoria_por_defecto_a_recetas');
+
+
+
+
+
+
+
+// Creamos un CPT llamado productos
 function productos_type()
 {
   $labels = [
@@ -108,6 +253,7 @@ function productos_type()
 }
 add_action('init', 'productos_type');
 
+// Agregar nuevo grupo taxonomico para productos
 function pgRegisterTax()
 {
   $args = [
@@ -260,16 +406,20 @@ function pgRenderDinamycBlock($attributes, $content) // Función de callback par
 add_action('init', 'pgRegisterBlock'); // Asignación de la función de registro del bloque al Hook "init"
 
 
-// verificar si estoy logeado
-// verificar si estoy logeado
 
+
+
+
+
+
+
+// verificar si estoy logeado
+// verificar si estoy logeado
 
 // function plz_add_to_signin_menu()
 // {
 //   $current_user = wp_get_current_user();
-
 //   $msg = is_user_logged_in() ? $current_user->user_email : "Sign in";
-
 //   echo $msg;
 // }
 // add_action("plz_signin", "plz_add_to_signin_menu");
@@ -281,13 +431,9 @@ function mostrar_boton_login_logout()
   $current_user = wp_get_current_user();
   $msg = is_user_logged_in() ? $current_user->user_email : "Sign in";
 
+  $redirect_url = home_url('sing-up'); // URL a la que quieres redirigir al usuario después de cerrar sesión
 
-  // URL a la que quieres redirigir al usuario después de cerrar sesión
-  $redirect_url = home_url('sing-up');
-
-  // Generar la URL de cierre de sesión con el parámetro redirect
-  $logout_url = wp_logout_url($redirect_url);
-
+  $logout_url = wp_logout_url($redirect_url); // Generar la URL de cierre de sesión con el parámetro redirect
 
 
   if (is_user_logged_in()) {

@@ -1,5 +1,6 @@
 <?php get_header(); ?>
 
+<h1>Producto</h1>
 
 <main class='container'>
   <h1><?php the_title() ?></h1>
