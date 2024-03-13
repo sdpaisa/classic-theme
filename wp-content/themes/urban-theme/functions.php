@@ -450,3 +450,59 @@ function mostrar_boton_login_logout()
 
 // add_action('wp_footer', 'mostrar_boton_login_logout');
 // add_action('plz_signin', 'mostrar_boton_login_logout');
+
+
+
+
+
+
+
+// cambiar el nombre por defecto de POST
+function change_post_menu_label()
+{
+  global $menu;
+  global $submenu;
+
+  $menu[5][0] = 'Novedades'; // Change the main menu label
+  $submenu['edit.php'][5][0] = 'Novedades'; // Change the submenu label
+  $submenu['edit.php'][10][0] = 'Add Novedades'; // Change the "Add New" label
+  $submenu['edit.php'][15][0] = 'Status'; // Change the "Status" label
+
+  // Change name for categories
+  $submenu['edit.php'][16][0] = 'Labels'; // Change the "Categories" label
+}
+add_action('admin_menu', 'change_post_menu_label');
+
+function change_post_object_label() // Change the labels for the post object
+{
+  global $wp_post_types;
+  $labels = &$wp_post_types['post']->labels;
+  $labels->name = 'Novedades';
+  $labels->singular_name = 'Novedad';
+  $labels->add_new = 'Add Novedad';
+  $labels->add_new_item = 'Add Novedad';
+  $labels->edit_item = 'Edit Novedad';
+  $labels->new_item = 'Novedad';
+  $labels->view_item = 'View Novedad';
+  $labels->search_items = 'Search Novedades';
+  $labels->not_found = 'No Novedades found';
+  $labels->not_found_in_trash = 'No Novedades found in Trash';
+}
+add_action('init', 'change_post_object_label');
+
+
+// // Cambiar el orden del menu
+// // Customize the admin menu order
+// function custom_menu_order($menu_ord)
+// {
+//   if (!$menu_ord) return true;
+//   return array(
+//     'index.php', // Dashboard link
+//     'edit.php?post_type=page', // Pages tab
+//     'edit.php', // Posts tab
+//     'upload.php', // Media manager
+//   );
+// }
+
+// add_filter('custom_menu_order', 'custom_menu_order');
+// add_filter('menu_order', 'custom_menu_order');
