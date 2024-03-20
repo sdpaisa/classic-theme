@@ -17,12 +17,12 @@
 define("SD_PATH", plugin_dir_path(__FILE__));
 
 //API REST
-require_once SD_PATH . "/includes/API/api-registro.php";
-require_once SD_PATH . "/includes/API/api-login.php";
+// require_once SD_PATH . "/includes/API/api-registro.php";
+// require_once SD_PATH . "/includes/API/api-login.php";
 
 //Shortcodes
-require_once SD_PATH . "/public/shortcode/form-registro.php";
-require_once SD_PATH . "/public/shortcode/form-login.php";
+// require_once SD_PATH . "/public/shortcode/form-registro.php";
+// require_once SD_PATH . "/public/shortcode/form-login.php";
 
 //Blocks
 require_once SD_PATH . "/blocks/register/index.php";

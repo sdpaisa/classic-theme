@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
-  console.log("registro cargado"); // Debugear si el registro fue cargado
+  console.log(`registro client`);
+
   let $form = document.querySelector("#signup");
   let $msg = document.querySelector(".msg");
 

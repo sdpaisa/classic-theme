@@ -48,7 +48,7 @@ function sd_recetas_block()
     array(
       'editor_script' => 'recetas-block', // Handler del Script que registramos arriba
       'attributes'      => array( // Repetimos los atributos del bloque, pero cambiamos los objetos por arrays
-        'content' => array(
+        'bano' => array(
           'type'    => 'string',
           'default' => '00 min'
         ),
@@ -64,7 +64,7 @@ function sd_recetas_block()
 
 function sd_recetas_block_dynamic($attributes)
 {
-  return '<div class="icn_time"><i></i>' . $attributes['content'] . ' / ' . $attributes['content2'] . '</div>';
+  return '<div class="icn_time"><i></i>' . $attributes['bano'] . ' / ' . $attributes['content2'] . '</div>';
 }
 
 // Asignación de la función de registro del bloque al Hook "init"

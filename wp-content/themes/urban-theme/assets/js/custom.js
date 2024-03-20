@@ -1,5 +1,5 @@
 (function ($) {
-  console.log("Hola WordPress");
+  // console.log("Hola WordPress");
   $("select").change(function () {
     $.ajax({
       url: pg.ajaxurl,

@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-12">
         <select class="form-control" name="categoria-productos" id="categoria-productos">
-          <option value="">Todas las categorías</option>
+          <!-- <option value="">Todas las categorías</option> -->
           <?php $terms = get_terms('categoria-productos', array('hide_empty' => true)); ?>
           <?php foreach ($terms as $term) {
             echo '<option value="' . $term->slug . '">' . $term->name . '</option>';

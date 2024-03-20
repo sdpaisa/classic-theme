@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
+  console.log(`login client`);
+
   let $form = document.querySelector("#signin");
   let $msg = document.querySelector(".msg");
   $form.addEventListener("submit", function (e) {

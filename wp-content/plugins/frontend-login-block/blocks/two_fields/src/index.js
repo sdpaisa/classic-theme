@@ -9,7 +9,7 @@ registerBlockType("recetas/basic", {
   icon: "info",
   category: "layout",
   attributes: {
-    content: {
+    bano: {
       type: "string",
       default: "00 min",
     },
@@ -20,7 +20,7 @@ registerBlockType("recetas/basic", {
   },
   edit: (props) => {
     const {
-      attributes: { content, content2 },
+      attributes: { bano, content2 },
       setAttributes,
       className,
       isSelected,
@@ -28,7 +28,7 @@ registerBlockType("recetas/basic", {
 
     // Función para guardar el atributo content
     const contenidoTiempoReceta = (newContent) => {
-      setAttributes({ content: newContent });
+      setAttributes({ bano: newContent });
     };
     const contenidoPersonasReceta = (newContent) => {
       setAttributes({ content2: newContent });
@@ -44,7 +44,7 @@ registerBlockType("recetas/basic", {
             <PanelRow>
               <TextControl
                 label="Complete el campo" // Indicaciones del campo
-                value={content} // Asignación del atributo correspondiente
+                value={bano} // Asignación del atributo correspondiente
                 onChange={contenidoTiempoReceta} // Asignación de función para gestionar el evento OnChange
               />
             </PanelRow>

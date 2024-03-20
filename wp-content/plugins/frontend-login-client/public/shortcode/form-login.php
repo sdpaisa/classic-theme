@@ -2,19 +2,42 @@
 
 function plz_script_login()
 {
-  wp_register_script("plz-login", plugins_url("../assets/js/login.js", __FILE__));
-  wp_enqueue_script("plz-login");
+  if (has_shortcode(get_post()->post_content, 'plz_login')) { // solo carga este script donde se usa el shortcode
 
-  //esta parte crea una variable con la ubicacion de la api rest buscada por el navegador
-  // al handle plz-login creado atrás, se le creará una variable (o se modificará supongo)
-  // llamada plz  y el valor de esa variable es el array (y el array regresa la URL de la apirest plz)
-  wp_localize_script("plz-login", "plz", array(
-    "rest_url" => rest_url("plz"),
-    "home_url" => home_url(),
-  ));
+
+    wp_register_script("plz-login", plugins_url("../assets/js/login.js", __FILE__));
+    wp_enqueue_script("plz-login");
+
+    //esta parte crea una variable con la ubicacion de la api rest buscada por el navegador
+    // al handle plz-login creado atrás, se le creará una variable (o se modificará supongo)
+    // llamada plz  y el valor de esa variable es el array (y el array regresa la URL de la apirest plz)
+    wp_localize_script("plz-login", "plz", array(
+      "rest_url" => rest_url("plz"),
+      "home_url" => home_url(),
+    ));
+  }
 }
 
 add_action("wp_enqueue_scripts", "plz_script_login");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function plz_add_login_form()
 {

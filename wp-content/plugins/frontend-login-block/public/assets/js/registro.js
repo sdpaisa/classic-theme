@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
+  console.log(`registro regi`);
+
   let $form = document.querySelector("#signup");
   let $msg = document.querySelector(".msg");
   $form.addEventListener("submit", function (e) {
