@@ -275,79 +275,6 @@ function pgRegisterTax()
 add_action('init', 'pgRegisterTax');
 
 
-// filtro de productos para el home por AJAX
-function filtroProductos()
-{
-  $args = array(
-    'post_type' => 'producto',
-    'posts_per_page' => -1,
-    'order'     => 'ASC',
-    'orderby' => 'title',
-    'tax_query' => array(
-      array(
-        'taxonomy' => 'categoria-productos',
-        'field' => 'slug',
-        'terms' => $_POST['categoria']
-      )
-    )
-  );
-  $productos = new WP_Query($args);
-
-  $return = array();
-  if ($productos->have_posts()) {
-    while ($productos->have_posts()) {
-      $productos->the_post();
-      $return[] = array(
-        'imagen' => get_the_post_thumbnail(get_the_ID(), 'large'),
-        'link' => get_permalink(),
-        'titulo' => get_the_title()
-      );
-    }
-  }
-
-  wp_send_json($return);
-}
-add_action('wp_ajax_nopriv_filtroProductos', 'filtroProductos');
-add_action('wp_ajax_filtroProductos', 'filtroProductos');
-
-
-// Novedades por API
-function novedadesAPI()
-{
-  register_rest_route(
-    'pg/v1',
-    '/novedades/(?P<cantidad>\d+)',
-    array(
-      'methods' => 'GET',
-      'callback' => 'pedirNovedades',
-    )
-  );
-}
-
-function pedirNovedades($data)
-{
-  $args = array(
-    'post_type' => 'post',
-    'posts_per_page' => $data['cantidad'],
-    'order'     => 'ASC',
-    'orderby' => 'title',
-  );
-  $novedades = new WP_Query($args);
-
-  if ($novedades->have_posts()) {
-    while ($novedades->have_posts()) {
-      $novedades->the_post();
-      $return[] = array(
-        'imagen' => get_the_post_thumbnail(get_the_ID(), 'large'),
-        'link' => get_permalink(),
-        'titulo' => get_the_title()
-      );
-    }
-  }
-  return $return;
-}
-add_action('rest_api_init', 'novedadesAPI');
-
 // Add bloque de Gutenberg
 
 // // FORMA 1
@@ -506,3 +433,77 @@ add_action('init', 'change_post_object_label');
 
 // add_filter('custom_menu_order', 'custom_menu_order');
 // add_filter('menu_order', 'custom_menu_order');
+
+
+// filtro de productos para el home por AJAX
+function filtroProductos()
+{
+  $args = array(
+    'post_type' => 'producto',
+    'posts_per_page' => -1,
+    'order'     => 'ASC',
+    'orderby' => 'title',
+    'tax_query' => array(
+      array(
+        'taxonomy' => 'categoria-productos',
+        'field' => 'slug',
+        'terms' => $_POST['categoria']
+      )
+    )
+  );
+  $productos = new WP_Query($args);
+
+  $return = array();
+  if ($productos->have_posts()) {
+    while ($productos->have_posts()) {
+      $productos->the_post();
+      $return[] = array(
+        'imagen' => get_the_post_thumbnail(get_the_ID(), 'large'),
+        'link' => get_permalink(),
+        'titulo' => get_the_title()
+      );
+    }
+  }
+
+  wp_send_json($return);
+}
+add_action('wp_ajax_nopriv_filtroProductos', 'filtroProductos');
+add_action('wp_ajax_filtroProductos', 'filtroProductos');
+
+
+// Novedades por API
+function novedadesAPI()
+{
+  register_rest_route(
+    'pg/v1',
+    '/novedades/(?P<cantidad>\d+)',
+    array(
+      'methods' => 'GET',
+      'callback' => 'pedirNovedades',
+    )
+  );
+}
+
+function pedirNovedades($data)
+{
+  $args = array(
+    'post_type' => 'post',
+    'posts_per_page' => $data['cantidad'],
+    'order'     => 'ASC',
+    'orderby' => 'title',
+  );
+  $novedades = new WP_Query($args);
+
+  if ($novedades->have_posts()) {
+    while ($novedades->have_posts()) {
+      $novedades->the_post();
+      $return[] = array(
+        'imagen' => get_the_post_thumbnail(get_the_ID(), 'large'),
+        'link' => get_permalink(),
+        'titulo' => get_the_title()
+      );
+    }
+  }
+  return $return;
+}
+add_action('rest_api_init', 'novedadesAPI');
