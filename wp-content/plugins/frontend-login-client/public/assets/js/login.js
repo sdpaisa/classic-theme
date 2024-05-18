@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", function () {
-  console.log(`login client`);
+  console.log(`login client HOLA`);
 
   let $form = document.querySelector("#signin");
   let $msg = document.querySelector(".msg");
@@ -23,14 +23,12 @@ window.addEventListener("DOMContentLoaded", function () {
         if (json.msg) {
           $msg.innerHTML = json.msg;
         } else {
-          $msg.innerHTML =
-            '<div class="p-3 text-primary-emphasis bg-danger-subtle border border-danger-subtle rounded-3">Hubo un problema con la respuesta del servidor.</div>';
+          $msg.innerHTML = '<div class="p-3 text-primary-emphasis bg-danger-subtle border border-danger-subtle rounded-3">Hubo un problema con la respuesta del servidor.</div>';
         }
 
         // Si se ha logueado correctamente, redirigir a la página principal
         if (json.msg.includes("correctamente")) {
-          $msg.innerHTML =
-            '<div class="p-3 text-primary-emphasis bg-success-subtle border border-success-subtle rounded-3">Se ha loggeado correctamente 😎</div>';
+          $msg.innerHTML = '<div class="p-3 text-primary-emphasis bg-success-subtle border border-success-subtle rounded-3">Se ha loggeado correctamente 😎</div>';
 
           setTimeout(function () {
             // redi al home
@@ -40,8 +38,7 @@ window.addEventListener("DOMContentLoaded", function () {
       })
       .catch((err) => {
         console.log(`Hubo un error: ${err}`);
-        $msg.innerHTML =
-          '<div class="p-3 text-primary-emphasis bg-danger-subtle border border-danger-subtle rounded-3">Hubo un problema con la solicitud.</div>';
+        $msg.innerHTML = '<div class="p-3 text-primary-emphasis bg-danger-subtle border border-danger-subtle rounded-3">Hubo un problema con la solicitud.</div>';
       });
   });
 });
